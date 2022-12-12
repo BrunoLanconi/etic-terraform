@@ -15,8 +15,3 @@ COPY . /application
 WORKDIR /application
 # Updating poetry
 RUN poetry update
-# Making migrations
-RUN poetry run python api/manage.py makemigrations
-RUN poetry run python api/manage.py migrate
-# Running server
-CMD ["poetry", "run", "python", "api/manage.py", "runserver", "80"]
