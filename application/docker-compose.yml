@@ -1,0 +1,14 @@
+version: "3"
+services:  # Lists all setup
+    api: # Service name
+        build: # Defines build configuration
+            dockerfile: Dockerfile  # Dockerfile location
+            context: .  # This docker-compose file context
+        image: my_project/api  # Image name
+        command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 80"
+        container_name: my_project_api  # Container name
+        volumes: # Defines volume configuration, used to preserve container content on host
+            - "/home/ec2-user/eticTerraform/application/:/application/"  # {host_path}:{container_path}
+        ports: # Ports to expose, may be used to link a host port to container port with {host_port}:{container_port}
+            - "80:80"
+        restart: always  # Defines restart policy
