@@ -9,9 +9,14 @@ RUN apt-get update
 RUN apt install python3 -y
 RUN apt install pip -y
 RUN pip install poetry
+# Copying content
+COPY . /application
 # Defining working directory
 WORKDIR /application
 # Updating poetry
 RUN poetry update
-# Creating virtual environment
-RUN poetry shell
+# Making migrations
+RUN poetry run python api/manage.py makemigrations
+RUN poetry run python api/manage.py migrate
+# Running server
+CMD ["poetry", "run", "python", "api/manage.py", "runserver", "80"]
